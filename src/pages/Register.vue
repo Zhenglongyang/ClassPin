@@ -36,7 +36,7 @@
             </div>
             </div>
 
-            <div class="ui fluid large orange button" @click.prevent="register" >Register</div>
+            <div class="ui fluid large orange button" @click.prevent="register" :class="{'loading':isLoading}">Register</div>
         </div>
 
         <div class = "ui error message" v-if="hasErrors">
@@ -69,7 +69,8 @@
                 password:'',
                 password_confirmation:'',
                 userRef: firebase.database().ref('users'), //users is an entry in the Database change this value if Db architecture changes
-                errors : []
+                errors : [],
+                isLoading: false
             }
         },
         
@@ -88,10 +89,11 @@
 
                 if(this.isFormValid()){
                     firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(user => {
- 
+                     
                         user = firebase.auth().currentUser;
+                        this.isLoading = true
                         //Show email and pass
-                        console.log("User Registered " + this.email  + " User pass: " + this.password)
+                        //console.log("User Registered " + this.email  + " User pass: " + this.password)
 
                         user.updateProfile({
                             displayName: this.name,
@@ -105,12 +107,14 @@
                                 },error=>{
                                     console.log(error)
                                     this.errors.push(error.message)
+                                    this.isLoading = false
                                 }
                             )
 
                         }).catch(error=>{
                             console.log(error)
                             this.errors.push(error.message)
+                            this.isLoading = false
                         })
                 }
            
