@@ -40,7 +40,8 @@
         </div>
 
         <div class = "ui error message" v-if="hasErrors">
-            <p v-for="error in errors"> {{error}} </p>
+            
+            <p v-for="error in errors" v-bind:key="error"> {{error}} </p>
         </div>
 
 
@@ -57,6 +58,7 @@
 <script>
     import md5 from 'md5'
     import firebase from 'firebase'
+
 
     export default {
         name: 'register',
@@ -86,16 +88,17 @@
 
                 if(this.isFormValid()){
                     firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(user => {
-                        
+ 
+                        user = firebase.auth().currentUser;
                         //Show email and pass
                         console.log("User Registered " + this.email  + " User pass: " + this.password)
-                        
-                        this.user.updateProfile({
+
+                        user.updateProfile({
                             displayName: this.name,
                             photoURL: "https://gravatar.com/avatar"+md5(this.email)+"?d=identicon"
                         }).then( ()=>{
-                            
                                     this.saveUserToUserRef(user).then(()=>{
+                                        //note that the firebase DB requires to have permissions to read/write otherwise will prompt permission error
                                         this.$store.dispatch("setUser",user)
                                         this.$router.push('/')
                                     })
