@@ -1,19 +1,19 @@
 <template>
     <div class="tchat__container">   
      <sidebar></sidebar>
-     <message></message>
+     <messages></messages>
     </div>
 </template>
 
 <script>
     import Sidebar from '../components/Sidebar'
-    import Message from '../components/Message'
+    import Messages from '../components/Messages'
     
     export default {
         name: 'tchat',
         components: {
             Sidebar,
-            Message
+            Messages
         }
     }
 </script>

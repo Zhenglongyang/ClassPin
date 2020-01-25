@@ -1,4 +1,5 @@
 <template>
+<div class="background">
     <div class="ui middle aligned center aligned grid login__container">
     <div class="column">
         <h2 class="ui orange header">
@@ -41,6 +42,7 @@
         </div>
     </div>
     </div>
+</div>
 </template>
 
 
@@ -75,14 +77,18 @@
                     this.isLoading = true
                     firebase.auth().signInWithEmailAndPassword(this.email,this.password).then(user=>{
                         
+                        user = firebase.auth().currentUser //for some reason user is not retrieved properly with firebase, it requires to explicitely call currentuser and bind it again.
+                        
                         this.$store.dispatch('setUser',user)
-                        this.$router.push('/')
+                        this.$router.push('/')                        
 
                     }).catch(error=>{
                         this.errors.push(error.message)
                         this.isLoading=false
                     })
                 }
+
+                
             },
 
             isFormValid(){

@@ -3,19 +3,19 @@
         <div class="ui items">
             <div class="item">
                 <div class="ui mini image">
-                    <img src="" alt="">
+                    <img :src="currentUser.photoURL" alt="avatar">
                 </div>
                 
                 <div class="middle aligned content">
                     <div class="ui container">
                         <div class="ui inverted header">
-                            Username
+                            {{currentUser.displayName}}
                         </div>
                     </div>
                 </div>
 
                 <div class="extra">
-                    <button class="ui circular icon left floated button">
+                    <button class="ui circular icon left floated button" @click="logout">
                         <i class="icon sign out"></i>
                     </button>
                 </div>
@@ -26,8 +26,26 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+    import firebase from "firebase"
+
     export default {
-        name:'connected-user'
+        name:'connected-user',
+        computed :{         
+            ...mapGetters(['currentUser'])
+        },
+
+        methods:{
+
+            logout(){
+                firebase.auth().signOut()
+                this.$store.dispatch("setUser", null)
+                this.$router.push('/login')
+
+            }
+
+            
+        }
     }
 </script>
 

@@ -97,7 +97,7 @@
 
                         user.updateProfile({
                             displayName: this.name,
-                            photoURL: "https://gravatar.com/avatar"+md5(this.email)+"?d=identicon"
+                            photoURL: "https://gravatar.com/avatar/"+md5(this.email)+"?d=identicon"
                         }).then( ()=>{
                                     this.saveUserToUserRef(user).then(()=>{
                                         //note that the firebase DB requires to have permissions to read/write otherwise will prompt permission error
