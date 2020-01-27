@@ -5,7 +5,9 @@
         <div class="ui raised padded segment channels__list">
             <ul>
                 <p v-for="error in errors" v-bind:key="error"> {{error}} </p>
-                <li class= "channels__item"  v-for="channel in channels"  v-bind:key="channel.id">{{channel.name}}</li>
+                <li class= "channels__item"  v-for="channel in channels"  v-bind:key="channel.id" 
+                :class="{'is_active' : setChannelActive(channel)}"
+                @click="changeChannel(channel)"># {{channel.name}}</li>
             </ul>
         </div>
                 <!-- Channel adding window -->
@@ -43,21 +45,24 @@
 
 <script>
     import firebase from "firebase"
+    import {mapGetters} from "vuex"
 
     export default {
         name:'channels',
 
         data(){
             return{
-                currentUser: firebase.auth().currentUser,
                 channels:[],
                 new_channel :'',
                 channelsRef: firebase.database().ref('channels'),    
-                errors:[]
+                errors:[],
+                firstLoad:true
             }
         },
 
         computed:{
+
+            ...mapGetters(['currentChannel']),
 
             hasErrors(){
                 return this.errors.length>0
@@ -75,6 +80,12 @@
             addListeners(){
                 this.channelsRef.on('child_added',snap =>{
                     this.channels.push(snap.val())
+
+                    if(this.firstLoad && this.channels.length>0){
+                        this.$store.dispatch("setCurrentChannel",this.channels[0])
+                    }
+
+                    this.firstLoad=false
                 }) 
             },
             
@@ -110,7 +121,17 @@
                 }).catch(error=>{
                     this.errors.push(error.message)
                 })
+            },
+
+            setChannelActive(channel){
+                return channel.id === this.currentChannel.id
+            },
+            
+            changeChannel(channel){
+                this.$store.dispatch('setCurrentChannel',channel)
             }
+
+            
         }
 
     }
