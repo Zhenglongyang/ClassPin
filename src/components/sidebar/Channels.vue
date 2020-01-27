@@ -69,7 +69,7 @@
             }
         },
 
-
+        
         mounted(){
             this.addListeners()
         },
@@ -98,12 +98,13 @@
             detachListener(){
                 this.channelsRef.off()
             },
-        
+
+            //opens the channel creation window
             openChannelModal(){
                 $("#channelModal").modal('show')
             },
 
- 
+            //method to add channel
             addChannel(){
                 let key = this.channelsRef.push().key
                 let newChannel = {
@@ -123,10 +124,12 @@
                 })
             },
 
+            //setter for current selected channel
             setChannelActive(channel){
                 return channel.id === this.currentChannel.id
             },
             
+            //changes the current channel to a selected one.
             changeChannel(channel){
                 this.$store.dispatch('setCurrentChannel',channel)
             }

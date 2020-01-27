@@ -63,6 +63,7 @@
         },
 
         computed: {
+            //check if there is error
             hasErrors () {
                 return this.errors.length >0
             }
@@ -70,11 +71,15 @@
         },
 
         methods:{
+
+            //call this to log in
             login(){
                 this.errors = [] // reset errors on each login attempts
                 if(this.isFormValid())
                 {
                     this.isLoading = true
+
+                    //sign in event
                     firebase.auth().signInWithEmailAndPassword(this.email,this.password).then(user=>{
                         
                         user = firebase.auth().currentUser //for some reason user is not retrieved properly with firebase, it requires to explicitely call currentuser and bind it again.
@@ -91,6 +96,8 @@
                 
             },
 
+
+            //check if form is valid. email and password needs to be not null
             isFormValid(){
                 if(this.email.length>0 && this.password.length>0)
                     return true

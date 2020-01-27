@@ -36,7 +36,7 @@
         },
 
         methods:{
-
+            //call this to logout
             logout(){
                 firebase.auth().signOut()
                 this.$store.dispatch("setUser", null)

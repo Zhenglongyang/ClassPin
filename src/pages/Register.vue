@@ -83,18 +83,21 @@
 
 
         methods: {
-
+            //register new user method
             register (){
                 this.errors = []
 
                 if(this.isFormValid()){
+                    //call to firebase
                     firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(user => {
-                     
+                        //get the currentuser
                         user = firebase.auth().currentUser;
                         this.isLoading = true
+
                         //Show email and pass
                         //console.log("User Registered " + this.email  + " User pass: " + this.password)
 
+                        //update the profile with icon and username
                         user.updateProfile({
                             displayName: this.name,
                             photoURL: "https://gravatar.com/avatar/"+md5(this.email)+"?d=identicon"
@@ -119,7 +122,7 @@
                 }
            
             },
-
+            //Update user to database
             saveUserToUserRef(user){
                 return this.userRef.child(user.uid).set({
                     name: user.displayName,
@@ -127,6 +130,7 @@
                 })
             },
 
+            //check if fields are empty
             isEmpty () {
                 if(this.name.length == 0 || this.email.length == 0 ||this.password.length == 0 || this.password_confirmation.length == 0)
                     return true
@@ -134,6 +138,7 @@
                     return false
             },
 
+            //check if password is valid (per firebase, passwords needs to be greater than 6 characters)
             passwordIsValid (){
                 if(this.password.length<6 || this.password_confirmation<6)
                     return false
@@ -142,6 +147,7 @@
                 return true
             },
 
+            //check if form is valid, pushes firebase errors if not.
             isFormValid(){
                 if(this.isEmpty()){
                     this.errors.push('Please fill in all the fields')
