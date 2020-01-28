@@ -20,7 +20,7 @@
 <script>
     import{mapGetters} from 'vuex'
     import firebase from 'firebase'
-
+    
     export default {
         name:'message-form', 
         data(){
@@ -36,38 +36,26 @@
 
         methods:{
             sendMessage(){
-                
-
-                
-                //check if current channel is not null
-                if(this.currentChannel !== null){
-                    //Send Message
-                    if(this.message.length>0){
-                        this.$parent.messageRef.child(this.currentChannel.id).push().set(this.createMessage()).then(()=>{
-
-                        }).catch(error=>{
-                            this.errors.push(error.message)
-                        })
-
-                        this.message=""          
-                    }
-
-      
-                }
-            },
-
-            createMessage (){
-                //message structure
-                return {
+                let newMessage = {
                     content: this.message,
-                    timestamp:firebase.database.ServerValue.TIMESTAMP,
-                    user:{
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                    user :{
                         name: this.currentUser.displayName,
-                        avatar: this.currentUser.photoURL,
-                        id: this.currentUser.uid
+                        avatar:this.currentUser.photoURL,
+                        id:this.currentUser.uid
                     }
                 }
+                this.$parent.messageRef.child(this.currentChannel.id).push().set(newMessage).then(()=>{
+
+                }).catch(error=>{
+                    this.errors.push(error.message)
+                })
+
+                this.message=""
             }
+            
+            
+
         }
     }
 </script>

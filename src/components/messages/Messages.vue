@@ -1,10 +1,10 @@
 <template>
     <div class= "messages__container">
         <div class="messages__content">
-            <h2 class="ui inverted center aligned header"># Channel's Name</h2>
+            <h2 class="ui inverted center aligned header">Channel's Name</h2>
             <div class="ui segment">
                 <div class="ui comments">
-                    <span v-for="message in messages" v-bind:key="message">{{message.content}}</span>
+                    <!--<span v-for="message in messages" v-bind:key="message">{{message.content}}</span>-->
                 </div>
             </div>
         </div>
@@ -24,36 +24,13 @@
         components:{
             MessageForm,
         },
-        data(){
-            return {
-                messagesRef: firebase.database().ref('messages'),
-                messages: []
-            }
-        },
 
-        computed:{
-            ...mapGetters(['currentChannel','currentUser'])
-        },
+        data() {
+            return{
+                messageRef: firebase.database().ref('messages')
+            } 
+        }
 
-        mounted(){
-            this.addListeners()
-        },
-        
-        methods:{
-            addListeners(){
-                this.messagesRef.child(this.currentChannel.id).on('child_added',snap =>{
-                    this.messages.push(snap.val())
-                })
-            },
-
-            detachListeners(){
-
-            }
-        },
-
-        beforeDestroy(){
-            this.detachListeners()
-        },
     }
 </script>
 

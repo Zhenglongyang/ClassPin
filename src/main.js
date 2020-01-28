@@ -56,8 +56,6 @@ firebase.initializeApp(firebaseConfig);
 //var rootRef = firebase.database().ref();
 //window.firebase = firebase
 
-Vue.config.productionTip = false
-
 const unsubscribe = firebase.auth().onAuthStateChanged(user=>{
 
   store.dispatch('setUser',user)
