@@ -4,7 +4,7 @@
             <div class="two fields">
 
                 <div class="field">
-                    <textarea name="message" id="message" v-model.trim="message" rows="3" placeholder="Message"></textarea>
+                   <textarea name="message" id="message" v-model.trim="message" rows="3" placeholder="Message"></textarea>
                 </div>
 
                 <div class="field">
@@ -53,14 +53,14 @@
 
             createMessage(){
                 return {
-                            content: this.message,
-                            timestamp: firebase.database.ServerValue.TIMESTAMP,
-                            user :{
-                                name: this.currentUser.displayName,
-                                avatar:this.currentUser.photoURL,
-                                id:this.currentUser.uid
-                            }
-                        }
+                    content: this.message,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                    user :{
+                        name: this.currentUser.displayName,
+                        avatar:this.currentUser.photoURL,
+                        id:this.currentUser.uid
+                    }
+                }
             }
         }
     }

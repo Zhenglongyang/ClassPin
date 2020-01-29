@@ -4,7 +4,7 @@
             <h2 class="ui inverted center aligned header">Channel's Name</h2>
             <div class="ui segment">
                 <div class="ui comments">
-                    <!--<span v-for="message in messages" v-bind:key="message">{{message.content}}</span>-->
+                      <span v-for="message in messages" v-bind:key="message.content">{{message.content}}</span>
                 </div>
             </div>
         </div>
@@ -27,8 +27,36 @@
 
         data() {
             return{
-                messageRef: firebase.database().ref('messages')
+                messageRef: firebase.database().ref('messages'),
+                messages:[]
             } 
+        },
+
+        computed : {
+           ...mapGetters(['currentChannel','currentUser'])
+        },
+
+        watch : {
+            currentChannel() {
+                this.addListeners()
+            }
+
+        },
+        methods:{
+            addListeners (){
+ 
+                this.messageRef.child(this.currentChannel.id).on("child_added",snap=>{
+                    this.messages.push(snap.val())
+                })
+            },
+            detachListeners(){
+
+            },
+        },
+
+        
+        beforeDestroy(){
+            this.detachListeners()
         }
 
     }
