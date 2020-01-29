@@ -4,7 +4,9 @@
             <h2 class="ui inverted center aligned header">Channel's Name</h2>
             <div class="ui segment">
                 <div class="ui comments">
-                      <span v-for="message in messages" v-bind:key="message.content">{{message.content}}</span>
+                    <transition-group tag="div" name="list">
+                       <single-message :message="message" v-for="message in messages" v-bind:key="message.content"></single-message>
+                    </transition-group>
                 </div>
             </div>
         </div>
@@ -16,6 +18,7 @@
 
 <script>
     import MessageForm from './MessageForm'
+    import SingleMessage from './SingleMessage'
     import firebase from 'firebase'
     import {mapGetters} from 'vuex'
     
@@ -23,12 +26,14 @@
         name: 'messages',
         components:{
             MessageForm,
+            SingleMessage
         },
 
         data() {
             return{
                 messageRef: firebase.database().ref('messages'),
-                messages:[]
+                messages:[],
+                channel: null
             } 
         },
 
@@ -38,19 +43,27 @@
 
         watch : {
             currentChannel() {
-                this.addListeners()
+                this.messages=[]//resets the messages
+                this.detachListeners()//detaches the message listener if there is no channel
+                this.addListeners()//add a new listener
+                this.channel = this.currentChannel//set a channel
             }
 
         },
         methods:{
+
             addListeners (){
- 
+     
                 this.messageRef.child(this.currentChannel.id).on("child_added",snap=>{
-                    this.messages.push(snap.val())
+                    let message = snap.val() //useless?
+                    message['id'] = snap.key //useless
+                    this.messages.push(message)
                 })
             },
             detachListeners(){
-
+                if(this.channel != null){
+                    this.messageRef.child(this.channel.id).off("child_added")
+                }
             },
         },
 
@@ -73,4 +86,13 @@
     .messages__container .comments{
         font-size: 1.2em;
     }  
+
+    .list-enter-active{
+        transition: all 0.3s
+    }
+    
+    .list-enter, .list-leave-to{
+        opacity: 0;
+        transform: translateX(30px);
+    }
 </style>
