@@ -68,12 +68,12 @@
 
 <style scoped>
     .message__form{
-            position: fixed;
+            position: absolute;
             bottom: 0;
             background-color:#232323;
             padding: 10px;
             padding-top: 20px;
-            height: 210px;
+            height: 15%;
             left: 300px;
             right: 0;
     }
