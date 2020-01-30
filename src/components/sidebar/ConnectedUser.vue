@@ -1,6 +1,6 @@
 <template>
     <div class="connectedUser__container">
-        <div class="ui items">
+        <div class="ui items" >
             <div class="item">
                 <div class="ui mini image">
                     <img :src="currentUser.photoURL" alt="avatar">
@@ -51,7 +51,7 @@
 
 <style scoped>
     .connectedUser__container{
-        position: absolute;
+        position:absolute;
         background-color: #202225;
         right: 0;
         top:0;

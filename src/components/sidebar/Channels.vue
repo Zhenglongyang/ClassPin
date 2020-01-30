@@ -6,11 +6,11 @@
             <ul>
                 <p v-for="error in errors" v-bind:key="error"> {{error}} </p>
                 <li class= "channels__item"  v-for="channel in channels"  v-bind:key="channel.id" 
-                :class="{'is_active' : setChannelActive(channel)}"
+                :class="{'is_active' : setChannelActive(channel)} "
                 @click="changeChannel(channel)"># {{channel.name}}</li>
             </ul>
         </div>
-                <!-- Channel adding window -->
+        <!-- Channel adding window -->
         <div class="ui basic modal" id="channelModal">
             <div class="ui icon header">
                 Add a Channel
@@ -155,7 +155,8 @@
         height: 30px;
         margin: 8px;
         list-style: none;
-        background-color: #ca67ff;
+        color: aliceblue;
+        background-color: #23272A;
         cursor: pointer;
         line-height: 30px;       
         border-radius: 2px;
@@ -167,10 +168,10 @@
         float:right;
     }
     .is_active{
-        background-color: #9740c5;
+        background-color: #8a8a8a;
     }
     .channels__item:hover{
-        background-color: #9740c5;
+        background-color: #8a8a8a;
     }
     .add_channel{
         cursor: pointer;
