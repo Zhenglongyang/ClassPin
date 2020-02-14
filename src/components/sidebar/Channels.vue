@@ -8,6 +8,7 @@
                 <li class= "channels__item"  v-for="channel in channels"  v-bind:key="channel.id" 
                 :class="{'is_active' : setChannelActive(channel)} "
                 @click="changeChannel(channel)"># {{channel.name}}</li>
+                
             </ul>
         </div>
         <!-- Channel adding window -->

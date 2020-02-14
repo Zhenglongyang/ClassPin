@@ -1,20 +1,32 @@
 <template>
     <div class="sidebar">
-        <h1 class="ui inverted center aligned header">Class Pin</h1>
+        <!--<h1 class="ui inverted center aligned header">Class Pin</h1>-->
+        
+        <!-- User Panel -->
         <connected-user></connected-user>
+
+        <!-- Channel List-->
         <channels></channels>
+        <div class="ui divider"></div>
+        
+        <!-- Other Users List-->
+        <users></users>
+
     </div>
 </template>
 
 <script>
     import ConnectedUser from './ConnectedUser'
     import Channels from './Channels'
+    import Users from './Users'
 
     export default {
         name: 'sidebar',
         components: {
+            
             ConnectedUser,
-            Channels
+            Channels,
+            Users
         }
     }
 </script>

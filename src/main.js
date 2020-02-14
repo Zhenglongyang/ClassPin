@@ -40,18 +40,18 @@ const routes = [
 const router = new VueRouter({routes})
 
   // Your web app's Firebase configuration
-var firebaseConfig = {
+  var firebaseConfig = {
     apiKey: "AIzaSyBQMcvETHcfgQsCez0O3KscPxwWPmAnyFc",
     authDomain: "classpinapp.firebaseapp.com",
     databaseURL: "https://classpinapp.firebaseio.com",
     projectId: "classpinapp",
     storageBucket: "classpinapp.appspot.com",
     messagingSenderId: "1095611313541",
-    appId: "1:1095611313541:web:401b6a58e9c2cb770128ec",
-    measurementId: "G-NYKLPNGRFJ"
+    appId: "1:1095611313541:web:7f4bc0d87eb486550128ec",
+    measurementId: "G-W3ZXLX8SHL"
   };
   // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 
 //var rootRef = firebase.database().ref();
 //window.firebase = firebase
