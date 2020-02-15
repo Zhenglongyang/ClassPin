@@ -1,77 +1,115 @@
 <template>
-    <div class= "messages__container">
+
+    <div class="messages__container">
         <div class="messages__content">
-            <h2 class="ui inverted center aligned header">Channel's Name</h2>
+            <h2 class="ui inverted center aligned header">{{ channelName }}</h2>
             <div class="ui segment">
                 <div class="ui comments">
+                    <!-- Single message -->
                     <transition-group tag="div" name="list">
-                       <single-message :message="message" v-for="message in messages" v-bind:key="message.content"></single-message>
+                        <single-message :message="message" v-for="message in messages" :key="message.id"></single-message>
                     </transition-group>
                 </div>
             </div>
+
         </div>
 
-        <!-- Send form-->
+        <!-- Send Form  -->
         <message-form></message-form>
+
     </div>
+
 </template>
 
 <script>
+
     import MessageForm from './MessageForm'
     import SingleMessage from './SingleMessage'
     import firebase from 'firebase'
     import {mapGetters} from 'vuex'
-    
+
     export default {
         name: 'messages',
-        components:{
+        components:{ 
             MessageForm,
             SingleMessage
         },
-
-        data() {
-            return{
-                messageRef: firebase.database().ref('messages'),
-                messages:[],
-                channel: null
-            } 
-        },
-
-        computed : {
-           ...mapGetters(['currentChannel','currentUser'])
-        },
-
-        watch : {
-            currentChannel() {
-                this.messages=[]//resets the messages
-                this.detachListeners()//detaches the message listener if there is no channel
-                this.addListeners()//add a new listener
-                this.channel = this.currentChannel//set a channel
+        
+        data () {
+            return {
+                messagesRef: firebase.database().ref('messages'),
+                privateMessagesRef: firebase.database().ref('privateMessages'),
+                messages: [],
+                channel: null,
+                listeners: []
             }
-
         },
-        methods:{
+        computed: {
+            ...mapGetters(['currentChannel', 'currentUser', 'isPrivate']),
+            channelName(){
+                if(this.channel !== null){
+                    return this.isPrivate ? '@ ' + this.channel.name : '# ' + this.channel.name 
+                }
+            }
+        },
+        watch : {
+            currentChannel () {                
 
-            addListeners (){
-     
-                this.messageRef.child(this.currentChannel.id).on("child_added",snap=>{
-                    let message = snap.val() //useless?
-                    message['id'] = snap.key //useless
+                this.detachListeners()
+
+                this.addListeners()
+
+                this.channel = this.currentChannel
+            }
+        },
+        methods: {
+            addListeners () {
+                let ref = this.getMessageRef()
+                ref.child(this.currentChannel.id).on('child_added', snap => {    
+                    let message = snap.val()
+                    message['id'] = snap.key               
                     this.messages.push(message)
+
+
+                    //scrolls to then bottom of the form so user can have the chat box without scrolling
+                    //consider replacing this with a scrollable message form
+                    this.$nextTick( () => {
+                        $('html, body').scrollTop($(document).height())
+                    })
+                    
+                    
                 })
+                this.addToListeners(this.currentChannel.id, ref, 'child_added')
             },
-            detachListeners(){
-                if(this.channel != null){
-                    this.messageRef.child(this.channel.id).off("child_added")
+            addToListeners(id, ref, event){
+                let index = this.listeners.findIndex( el => {
+                    return el.id === id && el.ref === ref && el.event === event
+                })
+                if(index === -1){
+                    this.listeners.push({id: id, ref: ref, event: event})
                 }
             },
-        },
+            detachListeners () {
 
-        
-        beforeDestroy(){
+                this.listeners.forEach( listener => {
+                    listener.ref.child(listener.id).off(listener.event)
+                })
+
+                this.listeners = []
+                this.messages = []
+              
+            },
+            getMessageRef () {
+                if(this.isPrivate){
+                    return this.privateMessagesRef
+                }else{
+                    return this.messagesRef
+                }
+            }
+        },
+        beforeDestroy () {
             this.detachListeners()
         }
-
     }
 </script>
 
@@ -86,11 +124,9 @@
     .messages__container .comments{
         font-size: 1.2em;
     }  
-
     .list-enter-active{
         transition: all 0.3s
-    }
-    
+    }  
     .list-enter, .list-leave-to{
         opacity: 0;
         transform: translateX(30px);

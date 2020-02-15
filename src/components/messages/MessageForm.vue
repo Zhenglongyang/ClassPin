@@ -1,5 +1,6 @@
 <template>
     <div class="message__form">
+
         <div class="ui inverted form">
             <div class="two fields">
 
@@ -9,20 +10,32 @@
 
                 <div class="field">
                     <button class="ui green button" @click.prevent="sendMessage">Send</button>
-                    <button class="ui labeled icon button"><i class="upload icon"></i>Upload Files</button>
+                    <button class="ui labeled icon button" @click.prevent="openFileModal"><i class="upload icon"></i>Upload Files</button>
                 </div>
             </div>
         </div>
+
+        <!--File Modal-->
+        <file-modal></file-modal>
     </div>
+    
+
+ 
 </template>
 
 
 <script>
     import{mapGetters} from 'vuex'
     import firebase from 'firebase'
-    
+    import FileModal from './FileModal'
+
     export default {
         name:'message-form', 
+        components: {
+            FileModal,
+        },
+
+        
         data(){
             return{
                 message:'',
@@ -39,8 +52,8 @@
 
                 if(this.currentChannel!==null){
                     if(this.message.length>0){
-                        this.$parent.messageRef.child(this.currentChannel.id).push().set(this.createMessage()).then(()=>{
-
+                        this.$parent.getMessageRef().child(this.currentChannel.id).push().set(this.createMessage()).then(()=>{
+                            
                         }).catch(error=>{
                             this.errors.push(error.message)
                         })
@@ -61,6 +74,10 @@
                         id:this.currentUser.uid
                     }
                 }
+            },
+
+            openFileModal(){
+                $("#fileModal").modal("show")
             }
         }
     }

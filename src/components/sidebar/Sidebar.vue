@@ -23,7 +23,6 @@
     export default {
         name: 'sidebar',
         components: {
-            
             ConnectedUser,
             Channels,
             Users

@@ -132,7 +132,9 @@
             
             //changes the current channel to a selected one.
             changeChannel(channel){
+                this.$store.dispatch('setPrivate', false)
                 this.$store.dispatch('setCurrentChannel',channel)
+
             }
 
             
