@@ -10,7 +10,7 @@
 
                 <div class="field">
                     <button class="ui green button" @click.prevent="sendMessage">Send</button>
-                    <button class="ui labeled icon button" @click.prevent="openFileModal"><i class="upload icon"></i>Upload Files</button>
+                    <button class="ui labeled icon button" @click.prevent="openFileModal"><i class="upload icon"></i>Upload Image</button>
                 </div>
             </div>
         </div>

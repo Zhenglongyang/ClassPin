@@ -2,11 +2,11 @@
      <div class="ui modal" id="fileModal">
         <i class="close icon"></i>
         <div class="header">
-            Send File
+            Send Image
         </div>
         <div class="content">
             <div class="description">
-                <div class="ui header"> Choose a File <em>( jpg, png, 1 mb max )</em></div>
+                <div class="ui header"> Choose an Image <em>( jpg, png, 250 mb max )</em></div>
                 <form class="ui form">
                     <div class="field">
                         <input type="file" name="file" id="file" @change="addFile">
