@@ -5,7 +5,7 @@
             <div class="two fields">
 
                 <div class="field">
-                   <textarea name="message" id="message" v-model.trim="message" rows="3" placeholder="Message"></textarea>
+                   <textarea name="message" id="message" v-model.trim="message" rows="3" placeholder="Message" @keyup.enter.exact="sendMessage"></textarea>
                 </div>
 
                 <div class="field">
