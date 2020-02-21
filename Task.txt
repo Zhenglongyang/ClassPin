@@ -1,0 +1,22 @@
+1. Consider adding a container for the messages to scroll and not the
+entire right side of the page
+
+2. Find a way to keep long channel names onto one line
+
+3. Consider adding delete button for deleting channels
+
+4. fix send message box so that it scales with screen
+
+5. map "Enter" key to send messages
+
+6. Add Dashboard
+
+7. Extend File upload to all extension not just images !!!!!!!!!!!!!!!!!!!!!
+
+
+
+Optional features:
+
+1. add settings for user
+2. giphy commands
+3. 

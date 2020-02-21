@@ -9,7 +9,10 @@
             <div class="metadata">
                 <span class="date comment__date">{{message.timestamp | fromNow}}</span>
             </div>
-            <div class="text">{{ message.content }}</div>
+
+            <div class="text" v-if="!isFile(message)">{{ message.content }}</div>
+            <img class="ui image comment__image" :src="message.image" alt="image" v-else>
+     
         </div>
     </div>
 </template>
@@ -26,7 +29,9 @@
             ...mapGetters(['currentUser'])
         },
         methods:{
-
+           isFile(message){
+                return message.content == null && message.image != null
+            }
         },
 
         filters: {
