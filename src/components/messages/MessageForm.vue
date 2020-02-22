@@ -182,13 +182,13 @@
 
 <style scoped>
     .message__form{
-            position: absolute;
+            position: fixed;
             bottom: 0;
             background-color:#232323;
             padding: 10px;
             padding-top: 20px;
-            height: 15%;
-            left: 100px;
+            height: 150px;
+            left: 300px;
             right: 0;
     }
     .messages__form.big{
