@@ -10,19 +10,19 @@
 
                 <div class="field">
                     <button class="ui green button" @click.prevent="sendMessage">Send</button>
-                    <button class="ui labeled icon button" @click.prevent="openFileModal"><i class="upload icon"></i>Upload Image</button>
+                    <button class="ui labeled icon button" @click.prevent="openFileModal" :class="{ 'disabled' : uploadState == 'uploading' }"><i class=" upload icon"></i>Fichier</button>
                 </div>
             </div>
         </div>
 
         <!-- Progress bar for Uploading Files-->
-        <div class="ui small orange inverted progress" data-total = "100" id="uploadedFile">
+        <div class="ui small orange inverted progress" data-total = "100" id="uploadedFile" v-if="uploadState!=null">
 
-            <div class="bar">
+            <div class="bar" v-show="uploadState != 'done'">
                 <div class="progress"></div>
             </div>
 
-            <div class="label">{{uploadLabel}}</div>
+            <div class="label" v-show="uploadState != 'done'">{{uploadLabel}}</div>
 
         </div>
         <!--File Modal-->
@@ -177,7 +177,9 @@
                 this.uploadTask = null
             }
         }
+        
     }
+    
 </script>
 
 <style scoped>
@@ -197,4 +199,5 @@
     .shortcut{
         color:white;
     }
+
 </style>

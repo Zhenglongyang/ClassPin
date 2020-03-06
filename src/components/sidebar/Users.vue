@@ -62,12 +62,6 @@ export default {
                 }
             })
 
-            this.presenceRef.on("child_removed",snap=>{
-                if(this.currentUser.uid !== snap.key)
-                {
-                    this.addStatusToUser(snap.key,false)
-                }
-            })
 
             this.connectedRef.on('value',snap=>{
                 if(snap.val() == true){
@@ -114,7 +108,7 @@ export default {
         },
 
         detachListeners(){
-            this.usersRef.off()
+            this.usersRef.off() // Error in beforeDestroy hook: "TypeError: Cannot read property 'off' of undefined"
             this.presenceRef.off()
             this.connectedRef.off()
         }
