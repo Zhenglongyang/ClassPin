@@ -1,6 +1,6 @@
 # classpin_app
 
-> A platform to share school work
+> A platform to share school work [Link to Demo](classpinapp.firebaseapp.com)
 
 ## Build Setup
 
